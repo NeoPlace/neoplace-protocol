@@ -6,6 +6,5 @@ export interface Wallet {
   private: string,
   amount: number,
   icon: any,
-  rates?: any,
-  nameWalletJsonEthOrBtcName: any;
+  rates?: any
 }

@@ -7,7 +7,6 @@ export interface Profil {
   pseudo: string;
   imageUrl?: any;
   username: string;
-  uid: string;
   position?: any;
   telegram?: any;
   address?: any;
