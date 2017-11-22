@@ -5,8 +5,6 @@ export interface Transaction {
   amount: number;
   date: number;
   label: string;
-  inventory?: any;
-  articleId?: any;
   service?: any;
   fiat?:boolean;
   currency:string;
