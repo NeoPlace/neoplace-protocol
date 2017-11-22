@@ -4,7 +4,5 @@ export interface Wallet {
   address: string,
   public: string,
   private: string,
-  amount: number,
-  icon: any,
-  rates?: any
+  amount: number
 }
