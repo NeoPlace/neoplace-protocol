@@ -7,6 +7,7 @@ import {HttpModule} from '@angular/http';
 import {BrowserModule} from '@angular/platform-browser';
 //DIRECTIVES
 import {InvokeDirective} from '../components/invoke-directive/invokeDirective';
+import {CapitalizePipe} from "../pipes/capitalize.pipe";
 
 
 export const MODULES = [
@@ -29,5 +30,5 @@ export const DIRECTIVES = [
 ];
 
 export const PIPES = [
-
+  CapitalizePipe
 ];
