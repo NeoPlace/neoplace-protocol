@@ -9,6 +9,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {InvokeDirective} from '../components/invoke-directive/invokeDirective';
 import {CapitalizePipe} from "../pipes/capitalize.pipe";
 import {KeysPipe} from "../pipes/keys.pipe";
+import {DistancePipe} from "../pipes/distance.pipe";
 
 
 export const MODULES = [
@@ -32,5 +33,6 @@ export const DIRECTIVES = [
 
 export const PIPES = [
   CapitalizePipe,
-  KeysPipe
+  KeysPipe,
+  DistancePipe
 ];
