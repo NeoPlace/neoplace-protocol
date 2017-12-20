@@ -21,10 +21,17 @@ export class CryptocompareService {
     }
   }
 
+  getAllRate() {
+    return this.currencies;
+  }
+
   getRateCrypto(crypto: string) {
     return  this.http.get(this.url + 'fsym=' + crypto.toUpperCase()
       + '&tsyms=' + this.cryptos.toString()).map(res => res.json());
 
   }
-  
+
+  convert(cryptoFrom: string, cryptoTo: string, amount: number) {
+    return this.currencies[cryptoFrom.toUpperCase()][cryptoTo.toUpperCase()] * amount;
+  }
 }
