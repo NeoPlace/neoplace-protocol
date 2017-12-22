@@ -42,6 +42,11 @@ export class RequestService {
         case "pay-service": {
           //TODO
         }
+        case "order-service": {
+          // TODO
+          break;
+        }
+
       }
     }
 
