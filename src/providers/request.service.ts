@@ -28,22 +28,22 @@ export class RequestService {
     if(request.type) {
       switch(request.type) {
         case "pay": {
-          //TODO
+          //DONE
           break;
         }
         case "pay-fiat": {
-          //TODO
+          //DONE
           break;
         }
         case "pay-article": {
-          //TODO
+          //DONE
           break;
         }
         case "pay-service": {
-          //TODO
+          //DONE
         }
         case "order-service": {
-          // TODO
+          //DONE
           break;
         }
 
