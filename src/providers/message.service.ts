@@ -15,6 +15,15 @@ export class MessageService {
   }
 
   saveMessage(uidFrom: string, uidTo: string, message: string) {
+    let alphaArray:Array<string> = [uidFrom, uidTo];
+    let sortedArray:Array<string> = alphaArray.sort();
+
+    let messageObject: Message = <Message>{
+      from: uidFrom,
+      to: uidTo,
+      date: Date.now(),
+      message: message
+    }
   }
 
   getMessages(discussionId: string) {
