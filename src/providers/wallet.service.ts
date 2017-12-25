@@ -36,7 +36,8 @@ export class WalletService {
   }
 
   getBalanceWallets(fromAddress: string, trigram: string) {
-    
+    return this.api.get(this.walletCaract[trigram.toLowerCase()].url + "/" + fromAddress + "/balance" + this.tokenUrl,
+      {},).map(data => data.json().balance / this.walletCaract[trigram.toLowerCase()].rate);
   }
 
   saveWallets(wallets, uid: string) {
