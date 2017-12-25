@@ -23,6 +23,7 @@ export class WalletService {
     eth : {url : "beth/test/addrs", rate: Math.pow(10, 18)}
   };
 
+  tokenUrl = "?token=" + this.token;
 
   constructor(private api: Api,
               private http: Http) {
