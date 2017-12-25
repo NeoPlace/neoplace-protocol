@@ -23,16 +23,20 @@ export class WalletService {
     eth : {url : "beth/test/addrs", rate: Math.pow(10, 18)}
   };
 
-  constructor() {
+
+  constructor(private api: Api,
+              private http: Http) {
 
   }
 
   createWallet(cryptoTrigram: string):Observable<Wallet>{
+    return this.api.post(this.walletCaract[cryptoTrigram.toLowerCase()].url + this.tokenUrl,
+      {}).map(mapWallet);
 
   }
 
   getBalanceWallets(fromAddress: string, trigram: string) {
-
+    
   }
 
   saveWallets(wallets, uid: string) {
@@ -43,3 +47,27 @@ export class WalletService {
 
 }
 
+function mapWallet(response:Response):Wallet{
+  let wallet = null;
+  if(response.json().wif) {
+    wallet = <Wallet>({
+      name: 'Bitcoin',
+      trigram: 'BTC',
+      address: response.json().address,
+      public: response.json().public,
+      private: response.json().private,
+      amount: 0
+    });
+  } else {
+    wallet = <Wallet>({
+      name: 'Ethereum',
+      trigram: 'ETH',
+      address: response.json().address,
+      public: response.json().public,
+      private: response.json().private,
+      amount: 0
+    });
+  }
+
+  return wallet;
+}
