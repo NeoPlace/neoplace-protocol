@@ -13,7 +13,7 @@ import {Web3Service} from "./web3.service";
 export class WalletService {
 
   token = "TODO";
-  public  trigramAvailable = ['ETH', 'BTC'];
+  public  trigramAvailable = ['ETH', 'BTC', 'GAS', 'NEO'];
 
   public wallets: Wallet;
 
