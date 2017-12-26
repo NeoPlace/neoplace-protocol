@@ -20,7 +20,8 @@ export class WalletService {
 
   private walletCaract = {
     btc : {url : "btc/test3/addrs", rate: Math.pow(10, 8)},
-    eth : {url : "beth/test/addrs", rate: Math.pow(10, 18)}
+    eth : {url : "beth/test/addrs", rate: Math.pow(10, 18)},
+    neo : {url : "testnet", rate: Math.pow(10, 18)}
   };
 
   tokenUrl = "?token=" + this.token;
