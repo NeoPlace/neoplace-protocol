@@ -58,6 +58,11 @@ export class WalletService {
     }));
   }
 
+  getBalanceWalletNeo(fromAddress: string) {
+    const balance = Neon.get.balance( 'TestNet', fromAddress);
+    return Observable.fromPromise(balance);
+  }
+
 }
 
 function mapWallet(response:Response):Wallet{
