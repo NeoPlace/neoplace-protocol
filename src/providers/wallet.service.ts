@@ -48,6 +48,16 @@ export class WalletService {
   getWallets(uid: string) {
   }
 
+  createWalletNeo():Observable<Wallet> {
+    const privateKey = Neon.create.privateKey();
+    const publicKey = Neon.get.publicKeyFromPrivateKey(privateKey);
+    const scriptHash = Neon.get.scriptHashFromPublicKey(publicKey);
+    const address = Neon.get.addressFromScriptHash(scriptHash);
+    return Observable.fromPromise(new Promise((resolve) => {
+      resolve(<Wallet>({name: 'NEO', trigram: 'NEO', address: address, public: publicKey, private: privateKey, amount: 0}));
+    }));
+  }
+
 }
 
 function mapWallet(response:Response):Wallet{
