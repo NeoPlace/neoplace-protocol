@@ -4,7 +4,6 @@ import {Api} from "./api";
 import {Observable} from "rxjs/Rx";
 import 'rxjs/add/operator/map';
 import {Wallet} from "./model/wallet";
-import {AngularFireDatabase} from "angularfire2/database";
 import Neon from '@cityofzion/neon-js';
 import {Web3Service} from "./web3.service";
 
