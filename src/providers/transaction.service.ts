@@ -33,11 +33,34 @@ export class TransactionService {
 
   transactions: Transaction[];
 
-  constructor() {
+  constructor(private api: Api) {
 
   }
 
   private sendCrypto(trigram: string, amount: number, wallet: Wallet, toAddress: string) {
+    let key = wallet.private;
+
+    let endpoint = trigram.toLowerCase();
+
+    let request = this.api.post(
+      endpoint + "/new?token=" + this.token,
+      JSON.stringify({inputs:[{addresses: [wallet.address]}],"outputs":[{"addresses": [toAddress], "value": amount}]}));
+
+    request
+      .subscribe(response => {
+        let content = response.json();
+
+        content.signatures = [];
+        content.pubkeys = [];
+        for(let s of content.tosign) {
+          content.signatures.push(sign(s, key));
+        }
+        this.api.post(
+          endpoint + "/send?token=" + this.token,
+          JSON.stringify(content)
+        ).subscribe();
+      });
+    return request;
 
   }
 
