@@ -38,6 +38,7 @@ export class TransactionService {
   }
 
   private sendCrypto(trigram: string, amount: number, wallet: Wallet, toAddress: string) {
+    // we suppose you have already decrypted the private key
     let key = wallet.private;
 
     let endpoint = trigram.toLowerCase();
