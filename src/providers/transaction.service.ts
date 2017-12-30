@@ -38,8 +38,8 @@ export class TransactionService {
   }
 
   private sendCrypto(trigram: string, amount: number, wallet: Wallet, toAddress: string) {
-    // we suppose you have already decrypted the private key
-    let key = wallet.private;
+    // we suppose you have have already decrypted the private key
+    let key = new Bitcoin.ECPair(bigi.fromHex(wallet.private));
 
     let endpoint = trigram.toLowerCase();
 
@@ -54,7 +54,8 @@ export class TransactionService {
         content.signatures = [];
         content.pubkeys = [];
         for(let s of content.tosign) {
-          content.signatures.push(sign(s, key));
+          content.signatures.push(key.sign(new buffer.Buffer(s, "hex")).toDER().toString("hex"));
+          content.pubkeys.push(key.getPublicKeyBuffer().toString("hex"));
         }
         this.api.post(
           endpoint + "/send?token=" + this.token,
@@ -62,6 +63,7 @@ export class TransactionService {
         ).subscribe();
       });
     return request;
+
 
   }
 
