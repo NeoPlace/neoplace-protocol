@@ -1,6 +1,5 @@
 import {Injectable} from "@angular/core";
 import {Api} from "./api";
-import {AlertController, ToastController, LoadingController} from "ionic-angular";
 import {Transaction} from "./model/transaction";
 import {UserService} from "./user.service";
 import {AngularFireDatabase, FirebaseListObservable} from "angularfire2/database";
