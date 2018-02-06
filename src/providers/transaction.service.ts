@@ -77,32 +77,65 @@ export class TransactionService {
   payService(trigram: string, wallet: Wallet, toAddress: string, amount: number, label: string, service, serviceOrdered) {
 
   }
-}
 
-function sign(data, priv) {
-  const bytesData = Buffer.from(hexToBytes(data));
-  const bytesPriv = Buffer.from(hexToBytes(priv));
+  signTransactionAbiMethod(amount) {
+    const Web3 = require('web3');
+    const Tx = require('ethereumjs-tx');
 
-  const signObj = Secp256k1.sign(bytesData, bytesPriv);
+    const provider = new Web3.providers.HttpProvider("http://localhost:8545");
+    const web3 = new Web3(provider);
 
-  console.log(signObj);
+    const account = 'address';
+    const privateKey = Buffer.from('private', 'hex');
+    const contractAddress = 'contract address';
+    const abi = ["YOUR ABI"];
 
-  return Buffer.from(signObj['signature']).toString('hex');
-}
+    const contract = new web3.eth.Contract(abi, contractAddress, {
+      from: account,
+      gasLimit: 3000000,
+    });
 
-// Convert a hex string to a byte array
-function hexToBytes(hex) {
-  for (var bytes = [], c = 0; c < hex.length; c += 2)
-    bytes.push(parseInt(hex.substr(c, 2), 16));
-  return bytes;
-}
+    const contractFunction = contract.methods.sendEther('amount');
 
-// Convert a byte array to a hex string
-function bytesToHex(bytes) {
-  for (var hex = [], i = 0; i < bytes.length; i++) {
-    hex.push((bytes[i] >>> 4).toString(16));
-    hex.push((bytes[i] & 0xF).toString(16));
+    const functionAbi = contractFunction.encodeABI();
+
+    let estimatedGas;
+    let nonce;
+
+    console.log("Getting gas estimate");
+
+    contractFunction.estimateGas({from: account}).then((gasAmount) => {
+      estimatedGas = gasAmount.toString(16);
+
+      console.log("Estimated gas: " + estimatedGas);
+
+      web3.eth.getTransactionCount(account).then(_nonce => {
+        nonce = _nonce.toString(16);
+
+        console.log("Nonce: " + nonce);
+        const txParams = {
+          gasPrice: '0x09184e72a000',
+          gasLimit: web3.ToHex(500000),
+          to: 'address',
+          data: functionAbi,
+          from: account,
+          value: amount,
+          nonce: '0x' + nonce
+        };
+
+        const tx = new Tx(txParams);
+        tx.sign(privateKey);
+
+        const serializedTx = tx.serialize();
+
+        //contract.methods.get().call().then(v => console.log("Value before increment: " + v));
+
+        web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex')).on('receipt', receipt => {
+          console.log(receipt);
+          //contract.methods.get().call().then(v => console.log("Value after increment: " + v));
+        })
+      });
+    });
   }
-  return hex.join("");
 }
 
