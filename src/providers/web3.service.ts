@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 
 declare var window: any;
 
-const Web3 = require('web3');
-
 // initialize web3
 const ProviderEngine = require('web3-provider-engine');
 const CacheSubprovider = require('web3-provider-engine/subproviders/cache.js');
@@ -33,7 +31,7 @@ export class Web3Service {
   initWeb3() {
 
     //Wallet Initialization
-    var privateKey = "3a1076bf45ab87712ad64ccb3b10217737f7faacbf2872e88fdd9a537d8fe266"
+    var privateKey = "your private key"
     var privateKeyBuffer = new Buffer(privateKey, "hex")
     var myWallet = walletFactory.fromPrivateKey(privateKeyBuffer)
 
