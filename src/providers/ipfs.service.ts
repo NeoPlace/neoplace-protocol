@@ -23,7 +23,7 @@ export class IpfsService {
 
   addData(data) {
     let ipfsId;
-    const buffer = new Buffer(data);
+    const buffer = new buffer.Buffer(data);
     return this.ipfsApi.add(buffer)
       .then((response) => {
         console.log(response);
