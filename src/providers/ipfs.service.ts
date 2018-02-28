@@ -35,6 +35,14 @@ export class IpfsService {
       });
   }
 
+  addFile(file) {
+    return new Promise((resolve, reject) => {
+      let reader = new window.FileReader();
+      reader.onloadend = () => resolve(reader);
+      reader.readAsArrayBuffer(file);
+    });
+  }
+
   saveToIpfs (reader) {
     let ipfsId;
     const buffer = new buffer.Buffer(reader.result);
