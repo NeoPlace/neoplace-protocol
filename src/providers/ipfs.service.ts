@@ -35,6 +35,18 @@ export class IpfsService {
       });
   }
 
+  saveToIpfs (reader) {
+    let ipfsId;
+    const buffer = new buffer.Buffer(reader.result);
+    return this.ipfsApi.add(buffer)
+      .then((response) => {
+        ipfsId = response[0].hash;
+        console.log(ipfsId);
+        return ipfsId;
+      }).catch((err) => {
+      console.error(err);
+    });
+  }
 }
 
 
