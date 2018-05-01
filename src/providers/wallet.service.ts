@@ -5,7 +5,8 @@ import {Observable} from "rxjs/Rx";
 import 'rxjs/add/operator/map';
 import {Wallet} from "./model/wallet";
 import Neon from '@cityofzion/neon-js';
-import {Web3Service} from "./web3.service";
+import nem from 'nem-sdk';
+import CryptoHelpers from 'nem-sdk';
 
 
 @Injectable()
@@ -60,6 +61,19 @@ export class WalletService {
   getBalanceWalletNeo(fromAddress: string) {
     const balance = Neon.get.balance( 'TestNet', fromAddress);
     return Observable.fromPromise(balance);
+  }
+
+  createWalletNem():Observable<Wallet> {
+
+    var privateKey = nem.crypto.cryptoHelpers.derivePassSha("a password", 6000).priv;
+    var kp = nem.crypto.cryptoHelpers.keyPair.create(privateKey);
+
+    // Create a private key wallet
+    var wallet = nem.model.wallet.importPrivateKey("a name", "a password", privateKey, nem.model.network.data.testnet.id);
+
+    return Observable.fromPromise(new Promise((resolve) => {
+      resolve(<Wallet>({name: 'NEM', trigram: 'XEM', address: wallet.address, public: kp.publicKey.toString(), private: privateKey, amount: 0}));
+    }));
   }
 
 }
