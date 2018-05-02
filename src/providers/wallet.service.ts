@@ -7,6 +7,7 @@ import {Wallet} from "./model/wallet";
 import Neon from '@cityofzion/neon-js';
 import nem from 'nem-sdk';
 import CryptoHelpers from 'nem-sdk';
+import { Http, RequestOptions, URLSearchParams } from '@angular/http';
 
 
 @Injectable()
@@ -74,6 +75,28 @@ export class WalletService {
     return Observable.fromPromise(new Promise((resolve) => {
       resolve(<Wallet>({name: 'NEM', trigram: 'XEM', address: wallet.address, public: kp.publicKey.toString(), private: privateKey, amount: 0}));
     }));
+  }
+
+  getBalanceWalletNem(fromAddress: string) {
+    var options;
+    var params = {address: fromAddress};
+
+    if (!options) {
+      options = new RequestOptions();
+    }
+
+    // Support easy query params for GET requests
+    if (params) {
+      let p = new URLSearchParams();
+      for (let k in params) {
+        p.set(k, params[k]);
+      }
+      // Set the search field if we have params and don't already have
+      // a search field set in options.
+      options.search = !options.search && p || options.search;
+    }
+
+    return this.http.post("http://explorer.nemchina.com/account/detail", options);
   }
 
 }
