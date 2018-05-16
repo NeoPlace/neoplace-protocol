@@ -50,3 +50,6 @@ or
 npm start # if you want to test in live
 ```
 
+# Architecture
+
+# How your wallet is generated ?
