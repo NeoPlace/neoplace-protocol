@@ -51,6 +51,8 @@ npm start # if you want to test in live
 ```
 
 # Architecture
+We are building NeoPlace on top of Ethereum and IPFS.
+![alt text](./architecture.png)
 
 # How your wallet is generated ?
 ## Bitcoin
