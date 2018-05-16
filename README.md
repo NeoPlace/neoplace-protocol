@@ -62,6 +62,13 @@ We are building NeoPlace on top of Ethereum and IPFS.
 
 # How your wallet is generated
 ## Bitcoin
+```
+var bitcoin = require("bitcoinjs-lib");
+var keyPair = bitcoin.ECPair.makeRandom();
+console.log(keyPair.getAddress());
+console.log(keyPair.toWif());
+// next step with BIP39
+```
 
 ## Ethereum
 
