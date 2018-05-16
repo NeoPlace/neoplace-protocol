@@ -71,7 +71,13 @@ console.log(keyPair.toWif());
 ```
 
 ## Ethereum
-
+```
+var ethereumw = require('ethereumjs-wallet');
+var wallet = ethereumw.generate();
+console.log("wallet.getAddressString()");
+console.log("wallet.getPrivateKeyString()");
+// next step use https://github.com/ConsenSys/eth-lightwallet
+```
 ## Neo
 
 ##
