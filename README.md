@@ -52,9 +52,15 @@ npm start # if you want to test in live
 
 # Architecture
 We are building NeoPlace on top of Ethereum and IPFS.
+## Global architecture
+
 ![alt text](./architecture.png)
 
-# How your wallet is generated ?
+## How data is stored
+
+![alt text](./storage.png)
+
+# How your wallet is generated
 ## Bitcoin
 
 ## Ethereum
