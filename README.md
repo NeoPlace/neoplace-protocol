@@ -105,3 +105,14 @@ console.log(keypair.secret());
 ```
 
 ## How your wallet is encrypted
+We use AES-256 (Advanced Encryption Standard), which is a symmetric encryption standard, to encrypt your wallet locally.
+```
+var CryptoJS = require("crypto-js");
+ 
+// Encrypt
+var encrypted = CryptoJS.AES.encrypt('YOUR WALLET'', 'secret key');
+ 
+// Decrypt
+var decrypted  = CryptoJS.AES.decrypt(encrypted.toString(), 'secret key');
+var plaintext = decrypted.toString(CryptoJS.enc.Utf8);
+```
