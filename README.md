@@ -79,5 +79,23 @@ console.log("wallet.getPrivateKeyString()");
 // next step use https://github.com/ConsenSys/eth-lightwallet
 ```
 ## Neo
+```
+// we use libraries from Neo community: city of zion
+var neon = require('@cityofzion/neon-js');
+var privateKey = neon.create.privateKey();
+var publicKey = neon.get.publicKeyFromPrivateKey(privateKey);
+var scriptHash = neon.get.scriptHashFromPublicKey(publicKey);
+var address = neon.get.addressFromScriptHash(scriptHash);
+```
+## Nem
+```
+const nem = require('nem-sdk').default;
+var rBytes = nem.crypto.nacl.randomBytes(32);
+var rHex = nem.utils.convert.ua2hex(rBytes);
+var keypair = nem.crypto.keyPair.create(rHex);
+var address = nem.model.address.toAddress(keypair.publicKey.toString(),  nem.model.network.data.mainnet.id)
+```
 
-##
+## Stellar
+
+## How your wallet is encrypted
