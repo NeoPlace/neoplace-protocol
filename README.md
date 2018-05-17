@@ -97,5 +97,11 @@ var address = nem.model.address.toAddress(keypair.publicKey.toString(),  nem.mod
 ```
 
 ## Stellar
+```
+const StellarSdk = require('stellar-sdk');
+let keypair = StellarSdk.Keypair.random();
+console.log(keypair.publicKey());
+console.log(keypair.secret());
+```
 
 ## How your wallet is encrypted
