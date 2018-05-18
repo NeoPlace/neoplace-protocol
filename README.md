@@ -60,6 +60,26 @@ We are building NeoPlace on top of Ethereum and IPFS.
 
 ![alt text](./storage.png)
 
+## How data is structured
+Your item or service is store in JSON format in IPFS :
+```
+{
+  "id": "...";
+  "title": "...";
+  "subtitle": "...";
+  "category": "...";
+  "description": "...";
+  "tags": ["...", "...", "..."];
+  "gallery": ["<reference to another IPFS hash>", "...", "..."];
+  "status": "...";
+  "price": ...;
+  "currency": "...";
+  "brand": "...";
+  "condition": "...";
+  "userSeller": "..."
+}
+```
+
 # How your wallet is generated
 ## Bitcoin
 ```
@@ -116,3 +136,4 @@ var encrypted = CryptoJS.AES.encrypt('YOUR WALLET'', 'secret key');
 var decrypted  = CryptoJS.AES.decrypt(encrypted.toString(), 'secret key');
 var plaintext = decrypted.toString(CryptoJS.enc.Utf8);
 ```
+
