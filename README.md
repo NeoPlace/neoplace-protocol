@@ -61,7 +61,7 @@ We are building NeoPlace on top of Ethereum and IPFS.
 ![alt text](./storage.png)
 
 ## How data is structured
-Your item or service is store in JSON format in IPFS :
+Your item or service is stored in JSON format in IPFS :
 ```
 {
   "id": "...";
