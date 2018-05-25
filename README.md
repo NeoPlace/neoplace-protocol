@@ -1,3 +1,4 @@
+:warning: Repo under development :warning:
 # Getting Started
 ## SCM
 
@@ -81,8 +82,9 @@ Your item or service is stored in JSON format in IPFS :
 }
 ```
 
-# How your wallet is generated
-## Bitcoin
+# Wallet
+## Wallet generation
+### Bitcoin
 ```
 var bitcoin = require("bitcoinjs-lib");
 var keyPair = bitcoin.ECPair.makeRandom();
@@ -91,7 +93,7 @@ console.log(keyPair.toWif());
 // next step with BIP39
 ```
 
-## Ethereum
+### Ethereum
 ```
 var ethereumw = require('ethereumjs-wallet');
 var wallet = ethereumw.generate();
@@ -99,7 +101,7 @@ console.log("wallet.getAddressString()");
 console.log("wallet.getPrivateKeyString()");
 // next step use https://github.com/ConsenSys/eth-lightwallet
 ```
-## Neo
+### Neo
 ```
 // we use libraries from Neo community: city of zion
 var neon = require('@cityofzion/neon-js');
@@ -108,7 +110,7 @@ var publicKey = neon.get.publicKeyFromPrivateKey(privateKey);
 var scriptHash = neon.get.scriptHashFromPublicKey(publicKey);
 var address = neon.get.addressFromScriptHash(scriptHash);
 ```
-## Nem
+### Nem
 ```
 const nem = require('nem-sdk').default;
 var rBytes = nem.crypto.nacl.randomBytes(32);
@@ -117,7 +119,7 @@ var keypair = nem.crypto.keyPair.create(rHex);
 var address = nem.model.address.toAddress(keypair.publicKey.toString(),  nem.model.network.data.mainnet.id)
 ```
 
-## Stellar
+### Stellar
 ```
 const StellarSdk = require('stellar-sdk');
 let keypair = StellarSdk.Keypair.random();
@@ -137,3 +139,11 @@ var encrypted = CryptoJS.AES.encrypt('YOUR WALLET'', 'secret key');
 var decrypted  = CryptoJS.AES.decrypt(encrypted.toString(), 'secret key');
 var plaintext = decrypted.toString(CryptoJS.enc.Utf8);
 ```
+
+## Escrow account
+Currently a simple escrow system.
+It will more and more sophisticated (integration jurors, community rewarded with NPT tokens)
+### Ethereum
+Embedded in smart contract
+### Bitcoin
+Multisig address
