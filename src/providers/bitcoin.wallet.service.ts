@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import {ApiService} from "./api/api.service";
-import {Wallet} from "../models/wallet.model";
 
 declare var require: any;
 
@@ -29,7 +27,7 @@ export class BitcoinWalletService {
     const address = derived.getAddress();
     const wif = derived.keyPair.toWIF();
 
-    return <Wallet>({
+    return ({
       trigram: "BTC",
       name: name,
       publicAddress: address,

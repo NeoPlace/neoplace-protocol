@@ -1,18 +1,11 @@
 import {Injectable} from "@angular/core";
 import {Api} from "./api";
 import {Transaction} from "./model/transaction";
-import {UserService} from "./user.service";
-import {AngularFireDatabase, FirebaseListObservable} from "angularfire2/database";
-import {ArticleService} from "./article.service";
 import {Wallet} from "./model/wallet";
-import * as CryptoJS from 'crypto-js';
 import * as Bitcoin from 'bitcoinjs-lib';
 import * as bigi from 'bigi';
 import * as buffer from 'buffer';
-import {Observable} from "rxjs/Observable";
-import Neon, {api} from '@cityofzion/neon-js';
-import {TransactionWeb3Service} from "./transaction..web3.service";
-import * as Secp256k1 from 'secp256k1';
+import {Article} from "./model/article";
 
 declare const Buffer;
 
@@ -70,11 +63,7 @@ export class TransactionService {
 
   }
 
-  payArticle(trigram: string, wallet: Wallet, toAddress: string, amount: number, label: string, article, articleId) {
-
-  }
-
-  payService(trigram: string, wallet: Wallet, toAddress: string, amount: number, label: string, service, serviceOrdered) {
+  payArticle(trigram: string, wallet: Wallet, toAddress: string, amount: number, label: string, article: Article) {
 
   }
 }

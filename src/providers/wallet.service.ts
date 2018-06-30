@@ -1,13 +1,12 @@
 import {Injectable} from "@angular/core";
-import {Response, Http} from "@angular/http";
 import {Api} from "./api";
 import {Observable} from "rxjs/Rx";
 import 'rxjs/add/operator/map';
 import {Wallet} from "./model/wallet";
 import Neon from '@cityofzion/neon-js';
 import nem from 'nem-sdk';
-import CryptoHelpers from 'nem-sdk';
-import { Http, RequestOptions, URLSearchParams } from '@angular/http';
+import {RequestOptions, URLSearchParams} from '@angular/http';
+import {HttpClient} from "@angular/common/http";
 
 
 @Injectable()
@@ -28,13 +27,13 @@ export class WalletService {
   tokenUrl = "?token=" + this.token;
 
   constructor(private api: Api,
-              private http: Http) {
+              private http: HttpClient) {
 
   }
 
-  createWallet(cryptoTrigram: string):Observable<Wallet>{
+  createWallet(cryptoTrigram: string) {
     return this.api.post(this.walletCaract[cryptoTrigram.toLowerCase()].url + this.tokenUrl,
-      {}).map(mapWallet);
+      {});
 
   }
 
@@ -99,29 +98,4 @@ export class WalletService {
     return this.http.post("http://explorer.nemchina.com/account/detail", options);
   }
 
-}
-
-function mapWallet(response:Response):Wallet{
-  let wallet = null;
-  if(response.json().wif) {
-    wallet = <Wallet>({
-      name: 'Bitcoin',
-      trigram: 'BTC',
-      address: response.json().address,
-      public: response.json().public,
-      private: response.json().private,
-      amount: 0
-    });
-  } else {
-    wallet = <Wallet>({
-      name: 'Ethereum',
-      trigram: 'ETH',
-      address: response.json().address,
-      public: response.json().public,
-      private: response.json().private,
-      amount: 0
-    });
-  }
-
-  return wallet;
 }

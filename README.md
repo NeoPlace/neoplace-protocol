@@ -12,12 +12,9 @@ Following development tools are required to run this project
 
 ```
 * GIT
-* Eclipse / IntelliJ IDEA (IDE)
+* IntelliJ IDEA / Visual Studio Code
 * Node 8 with npm 5
 * angular-cli
-* ionic for native app
-* Android studio for Android native app
-* Xcode for iOS native app
 ```
 
 ## Hierarchy
@@ -26,18 +23,10 @@ app
   app.component
   app.module
   ...           # entry point for angular app and configuration files
-components
-pages           # frontend HTML/CSS views
-  home
-  article
-  service
-  pay
-pipes
 providers       # useful class
   model
   ...
 package.json
-config.xml      # for mobile native app
 README.md 
 ```
 
