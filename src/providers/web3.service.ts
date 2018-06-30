@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 
 declare var window: any;
+declare var require: any;
+
+declare const Buffer;
 
 // initialize web3
 const ProviderEngine = require('web3-provider-engine');

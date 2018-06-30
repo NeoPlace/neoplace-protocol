@@ -1,9 +1,18 @@
 {
-  "name": "ivpay2",
+  "name": "NeoPlace",
   "version": "0.0.1",
   "author": "Neoplace Tech",
   "homepage": "https://www.neoplace.io/",
   "private": true,
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "serveProd": "ng serve --environment=prod ",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e"
+  },
   "dependencies": {
     "@agm/core": "1.0.0-beta.2",
     "@angular/animations": "5.2.0",

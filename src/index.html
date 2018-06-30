@@ -1,28 +1,25 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Ionic App</title>
-  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="format-detection" content="telephone=no">
-  <meta name="msapplication-tap-highlight" content="no">
-
-  <!-- un-comment this code to enable service worker
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js')
-        .then(() => console.log('service worker installed'))
-        .catch(err => console.error('Error', err));
-    }
-  </script>-->
-
-  <link href="build/main.css" rel="stylesheet">
-
+  <meta charset="utf-8">
+  <title>NeoPlace </title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Material+Icons" rel="stylesheet">
 </head>
-<body>
+<body class="">
+  <app-root>
+    <div class="app-loader">
+      <div class="spinner">
+        <div class="double-bounce1 mat-bg-primary"></div>
+        <div class="double-bounce2 mat-bg-accent"></div>
+      </div>
+    </div>
+  </app-root>
 
-  <!-- google maps script is loaded last as to not block rendering -->
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWc6kOtjHwnrL3bTJWG5YklwyB8SxFm8A"></script>
-
+  <!-- <script>
+    __Zone_enable_cross_context_check = true;
+  </script> -->
 </body>
 </html>
