@@ -65,6 +65,60 @@ getPurchases(from): Observable<any> {
     })
   }
 
+  getTransaction(id): Observable<any> {
+    let meta;
+
+    return Observable.create(observer => {
+      this.Transaction
+        .deployed()
+        .then(instance => {
+          meta = instance;
+          //we use call here so the call doesn't try and write, making it free
+          return meta.transactions.call(id);
+        })
+        .then(value => {
+          observer.next(value);
+          observer.complete();
+        })
+        .catch(e => {
+          console.log(e);
+          observer.error(e);
+        });
+    })
+  }
+
+  send(from, to, price): Observable<any> {
+    let meta;
+
+    return Observable.create(observer => {
+      this.Transaction
+        .deployed()
+        .then(instance => {
+          console.log(to);
+          meta = instance;
+          //we use call here so the call doesn't try and write, making it free
+          return meta.sendAmount(
+            to.startsWith("0x") ? to : "0x" + to,
+            {
+              from: from.startsWith("0x") ? from : "0x" + from,
+              value: this.web3Ser.web3.toWei(price, "ether"),
+              gasLimit: 3000000,
+              gas: 500000,
+              gasPrice: 4000000000
+            }
+          );
+        })
+        .then(value => {
+          observer.next(value);
+          observer.complete();
+        })
+        .catch(e => {
+          console.log(e);
+          observer.error(e);
+        });
+    })
+  }
+
   buyItem(from, to, itemId, typeItem, location, pictureHash, comment, price): Observable<any> {
     let obj = {from, to, itemId, typeItem, location, pictureHash, comment, price};
     let meta;
@@ -83,6 +137,39 @@ getPurchases(from): Observable<any> {
             pictureHash,
             this.web3Ser.web3.fromAscii(comment),
             this.web3Ser.web3.fromAscii("sold"),
+            this.web3Ser.web3.toWei(price, "ether"),
+            {
+              from: from.startsWith("0x") ? from : "0x" + from,
+              value: this.web3Ser.web3.toWei(price, "ether"),
+              gasLimit: 3000000,
+              gas: 500000,
+              gasPrice: 4000000000
+            }
+          );
+        })
+        .then(value => {
+          observer.next(value);
+          observer.complete();
+        })
+        .catch(e => {
+          console.log(e);
+          observer.error(e);
+        });
+    })
+  }
+
+  sendAdditionalFunds(from, to, itemId, price): Observable<any> {
+    let meta;
+
+    return Observable.create(observer => {
+      this.Transaction
+        .deployed()
+        .then(instance => {
+          meta = instance;
+          //we use call here so the call doesn't try and write, making it free
+          return meta.sendAdditionalFunds(
+            to.startsWith("0x") ? to : "0x" + to,
+            this.web3Ser.web3.fromAscii(itemId),
             this.web3Ser.web3.toWei(price, "ether"),
             {
               from: from.startsWith("0x") ? from : "0x" + from,
