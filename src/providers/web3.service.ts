@@ -1,86 +1,134 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import {ApiService} from "./api.service";
 
 declare var window: any;
 declare var require: any;
 
-declare const Buffer;
-
-// initialize web3
-const ProviderEngine = require('web3-provider-engine');
-const CacheSubprovider = require('web3-provider-engine/subproviders/cache.js');
-const FixtureSubprovider = require('web3-provider-engine/subproviders/fixture.js');
-const FilterSubprovider = require('web3-provider-engine/subproviders/filters.js');
-const VmSubprovider = require('web3-provider-engine/subproviders/vm.js');
-const NonceSubprovider = require('web3-provider-engine/subproviders/nonce-tracker.js');
-const RpcSubprovider = require('web3-provider-engine/subproviders/rpc.js');
-const WalletSubprovider = require('ethereumjs-wallet/provider-engine');
-const walletFactory = require('ethereumjs-wallet');
 const Web3 = require('web3');
+
 
 export const environment = {
   production: false,
-  HttpProvider: "YOUR NODE"
+  HttpProvider: "http://localhost:7545"
 };
 
 @Injectable()
 export class Web3Service {
 
-	public web3: any;
+	public static web3: any;
+	public static account: any;
 
-  constructor() {
-  	this.initWeb3();
+  constructor(private apiService: ApiService,
+              private router: Router) {
   }
 
-  initWeb3() {
+  checkAndInstantiateWeb3() {
+    // Checking if Web3 has been injected by the browser (Mist/MetaMask)
+    return new Promise((resolve, reject) => {
+      if (typeof window.web3 !== 'undefined') {
+        console.warn('Using web3 detected from external source. If you find that your accounts don\'t appear, ensure you\'ve configured that source properly. If using MetaMask, see the following link. Feel free to delete this warning. :) http://truffleframework.com/tutorials/truffle-and-metamask'
+        );
+        // Use Mist/MetaMask's provider
+        Web3Service.web3 = new Web3(window.web3.currentProvider);
 
-    //Wallet Initialization
-    var privateKey = "your private key"
-    var privateKeyBuffer = new Buffer(privateKey, "hex")
-    var myWallet = walletFactory.fromPrivateKey(privateKeyBuffer)
+        Web3Service.account = window.web3.eth.accounts[0];
+        var self = this;
 
-    //Engine initialization & sub-provider attachment
+        //check account unlocked
+        if(!window.web3.eth.accounts[0]) {
+          window.alert("Please unlock your Metamask account.");
+          reject(false);
+        }
 
-    var engine = new ProviderEngine();
+        //check valid network
+        if(window.web3.version.network != 4) {
+          window.alert("Please use Rinkeby test network on Metamask.");
+          reject(false);
+        }
 
-    engine.addProvider(new FixtureSubprovider({
-      web3_clientVersion: 'ProviderEngine/v0.0.0/javascript',
-      net_listening: true,
-      eth_hashrate: '0x00',
-      eth_mining: false,
-      eth_syncing: true,
-    }))
+        if(window.web3.eth.accounts[0] && window.web3.version.network != 4) {
+          resolve(true);
+        } else {
+          reject(false);
+        }
+      } else {
+        window.alert("Please install MetaMask first.");
+        reject(false);
+      }
+    });
 
-    // cache layer
-    engine.addProvider(new CacheSubprovider())
 
-    // filters
-    engine.addProvider(new FilterSubprovider())
+  };
 
-    // pending nonce
-    engine.addProvider(new NonceSubprovider())
 
-    // vm
-    engine.addProvider(new VmSubprovider())
 
-    // Here the URL can be your localhost for TestRPC
-    engine.addProvider(new RpcSubprovider({
-      rpcUrl: 'YOUR RPC URL',
-    }))
+  login(publicAddress) {
+    return new Promise((resolve, reject) => {
+      let seq = this.apiService.get("subscribe/address", {publicAddress: publicAddress}).toPromise();
 
-    // Wallet Attachment
-    engine.addProvider(new WalletSubprovider(myWallet))
-
-    // network connectivity error
-    engine.on('error', function(err){
-      // report connectivity errors
-      console.error(err.stack)
+      return seq.then(value => {
+        if(value) {
+          this.signMessage(value['publicAddress'], value['nonce'])
+            .then(value1 => {
+              this.authenticate(value1['publicAddress'], value1['signature'])
+                .subscribe(value2 => {
+                  if(value2.headers.get('authorization')) {
+                    ApiService.token = value2.headers.get('authorization');
+                    resolve(true);
+                  }
+                }, error => {
+                  reject(error);
+                })
+            }).catch(err => {
+              reject(err)
+          });
+        } else {
+          this.signup(publicAddress).subscribe(valueSignup => {
+            this.signMessage(valueSignup['publicAddress'], valueSignup['nonce'])
+              .then(value1 => {
+                this.authenticate(value1['publicAddress'], value1['signature'])
+                  .subscribe(value2 => {
+                    if(value2.headers.get('authorization')) {
+                      ApiService.token = value2.headers.get('authorization');
+                      resolve(true);
+                    }
+                  }, error => {
+                    reject(error);
+                  })
+              }).catch(err => {
+              reject(err)
+            });
+          })
+        }
+      });
     })
-
-    // start polling for blocks
-    engine.start()
-
-    //Actual Initialization of the web3 module
-    this.web3 = new Web3(engine)
   }
+
+  signMessage(publicAddress, nonce) {
+    return new Promise((resolve, reject) =>
+      window.web3.personal.sign(
+        Web3Service.web3.fromUtf8(`Log in NeoPlace (nonce: ${nonce})`),
+        publicAddress,
+        (err, signature) => {
+          if (err) return reject(err);
+          return resolve({ publicAddress: publicAddress, signature: signature });
+        }
+      )
+    );
+  }
+
+  signup(publicAddress) {
+    return this.apiService.post("subscribe/signup", {publicAddress: publicAddress});
+  }
+
+  authenticate(publicAddress, signature) {
+    return this.apiService.postFull("login", {pubKey: publicAddress, signature: signature});
+  }
+
+
+
+
+
 
 }

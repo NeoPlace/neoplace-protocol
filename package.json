@@ -1,9 +1,8 @@
 {
-  "name": "NeoPlace",
-  "version": "0.0.1",
+  "name": "neoplace-protocol",
+  "version": "1.0.5",
   "author": "Neoplace Tech",
   "homepage": "https://www.neoplace.io/",
-  "private": true,
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -66,5 +65,6 @@
     "typescript": "2.4.2",
     "uglifyjs-webpack-plugin": "^1.2.6",
     "web3": "^0.19.0"
-  }
+  },
+  "license" : "Apache-2.0"
 }

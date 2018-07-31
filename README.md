@@ -3,7 +3,7 @@
 ## SCM
 
 ```
-git clone https://github.com/NeoPlace/neoplace.core.git
+git clone https://github.com/NeoPlace/neoplace-protocol.git
 ```
 Current branch is: master
 
@@ -39,16 +39,53 @@ npm run build
 or
 npm start # if you want to test in live
 ```
+or use directly our lib available on npm
+```
+npm i neoplace-protocol
+```
+
+# How to use NeoPlace protocol
+
+## Web3 transaction class
+Interact with the NeoPlace smart contract
+```
+//init web3 provider
+constructor(private transactionWeb3: TransactionWeb3Service) {
+  this.transactionWeb3.initDesktop(); // for Desktop version
+  this.transactionWeb3.initMobile("[your ethereum private key]", "[rpcUrl]") // for Mobile version
+}
+```
+Available methods:
+```
+this.transactionWeb3.buyItem
+                    .send
+                    .sendAdditionalFunds
+                    .unlockFunds
+                    .getPurchases
+                    .getSales
+                    .getTransaction
+```
+
+## IPFS class
+Available methods:
+```
+constructor(private ipfsService: IpfsService) {}
+...
+// add text data
+this.ipfsService.addData("your text").then(resp => {
+  console.log("ipfs hash: ", resp.hash);
+});
+
+// add a file
+this.ipfsService.addFile([your file]).then(reader => {
+  this.ipfsService.saveToIpfs(reader).then(resp => {
+    console.log("ipfs hash: ", resp.hash);
+  })
+})
+```
+
 
 # Architecture
-We are building NeoPlace on top of Ethereum and IPFS.
-## Global architecture
-
-![alt text](./architecture.png)
-
-## How data is stored
-
-![alt text](./storage.png)
 
 ## How data is structured
 Your item or service is stored in JSON format in IPFS :
@@ -128,11 +165,3 @@ var encrypted = CryptoJS.AES.encrypt('YOUR WALLET'', 'secret key');
 var decrypted  = CryptoJS.AES.decrypt(encrypted.toString(), 'secret key');
 var plaintext = decrypted.toString(CryptoJS.enc.Utf8);
 ```
-
-## Escrow account
-Currently a simple escrow system.
-It will more and more sophisticated (integration jurors, community rewarded with NPT tokens)
-### Ethereum
-Embedded in smart contract
-### Bitcoin
-Multisig address
